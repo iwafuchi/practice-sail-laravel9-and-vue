@@ -18,3 +18,6 @@ sail composer require laravel/breeze --dev
 ```php
 sail artisan breeze:install vue
 ```
+
+## Vue.js devtoolsのインストール
+https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=ja
