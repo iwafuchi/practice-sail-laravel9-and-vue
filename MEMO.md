@@ -16,3 +16,8 @@ service "laravel.test" is not running container #1
 ```.env
 APP_SERVICE=your-service
 ```
+
+## dockerディレクトリの生成
+```bash
+sail artisan sail:publish
+```
