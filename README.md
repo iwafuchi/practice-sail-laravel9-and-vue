@@ -1,5 +1,7 @@
 # practice-sail-laravel9-and-vue
 
+[MEMO.md](/MEMO.md)へのリンク
+
 ## sailでプロジェクトを作成
 
 ```bash
