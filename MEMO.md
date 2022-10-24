@@ -22,6 +22,11 @@ APP_SERVICE=your-service
 sail artisan sail:publish
 ```
 
+## createInertiaApp
+app.jsでimportされている。  
+resoleveプロパティで/resources/js/Pages配下のvueファイルを探しに行っている。
+このおかげでvueファイルのパスを解決出来ている。
+
 ## 名前付きルート(named routes)
 
 ```php
