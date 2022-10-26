@@ -26,6 +26,10 @@ Route::get('/inertia/index', [InertiaTestController::class, 'index'])
 Route::get('/inertia/show{id}', [InertiaTestController::class, 'show'])
     ->name('inertia.show');
 
+Route::post('/inertia', [InertiaTestController::class, 'store'])
+    ->name('inertia.store');
+
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
