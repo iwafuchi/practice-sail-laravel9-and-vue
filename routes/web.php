@@ -23,6 +23,13 @@ Route::get('/inertia-test', function () {
 Route::get('/inertia/index', [InertiaTestController::class, 'index'])
     ->name('inertia.index');
 
+Route::get('/inertia/show{id}', [InertiaTestController::class, 'show'])
+    ->name('inertia.show');
+
+Route::post('/inertia', [InertiaTestController::class, 'store'])
+    ->name('inertia.store');
+
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -36,4 +43,4 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
