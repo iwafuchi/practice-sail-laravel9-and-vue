@@ -65,3 +65,54 @@ Route::get('/inertia/index', [InertiaTestController::class, 'index'])
 </template>
 ```
 
+## Linkルートパラメータ
+ルートパラメータを付与して遷移
+```php
+//InertiaTestController
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class InertiaTestController extends Controller {
+    public function show($id) {
+        return Inertia::render('Inertia/Show', ['id' => $id]);
+    }
+}
+
+```
+
+```php
+//web.php
+Route::get('/inertia/show{id}', [InertiaTestController::class, 'show'])
+    ->name('inertia.show');
+```
+
+```vue
+<!-- InertiaTest.vue -->
+<script setup>
+import { Link } from '@inertiajs/inertia-vue3';
+</script>
+
+<template>
+    <!-- パラメータはオブジェクト形式 -->
+    <Link :href="route('inertia.show', { id: 50 })">ルートパラメータのテストです</Link>
+</template>
+
+```
+
+```vue
+<!-- Show.vue -->
+<script setup>
+// definePropsでパラメータを取得
+defineProps({
+    id: String
+})
+</script>
+
+<template>
+    {{ id }}
+</template>
+```
