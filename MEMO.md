@@ -116,3 +116,40 @@ defineProps({
     {{ id }}
 </template>
 ```
+
+## Requestを受け取る時
+```php
+// 受け取りたい値のみ取得する
+$attributes = $request->only('title', 'content');
+```
+
+## postメソッドでのルートにLinkで遷移する場合はmethod='post'を指定する
+```php
+Route::post('/inertia', [InertiaTestController::class, 'store'])
+    ->name('inertia.store');
+```
+
+```vue
+    <Link as="button" method="post" :href="route('inertia.store')" :data="{
+        title: newTitle,
+        content: newContent
+    }">
+    DB保存テスト
+    </Link>
+```
+
+## DBに保存する場合は、書き換え可能なカラムをfillableで指定する
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class InertisaTest extends Model {
+    use HasFactory;
+
+    protected $fillable = ['title', 'content'];
+}
+```
