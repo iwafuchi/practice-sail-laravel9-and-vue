@@ -195,3 +195,23 @@ v-model フォーム用
 v-cloak  
 v-slot  
 トランジション関連
+
+## Vue.js CompositionAPI(setup)
+
+```vue
+<script setup>
+import {Link} from '@inertia/inertia-vue3' //inertia側
+import {ref} from 'vue' //vue側
+
+//コントローラからの受け渡し
+defineProps({
+    id: String
+})
+//リアクティブな変数はrefかreactiveで囲む
+const reactiveVariable = ref('');
+</script>
+
+<template>
+<input type="text" name="reactiveVariable" v-model="reactiveVariable">{{reactiveVariable}}
+</template>
+```
