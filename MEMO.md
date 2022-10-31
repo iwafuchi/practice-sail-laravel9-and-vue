@@ -153,3 +153,45 @@ class InertisaTest extends Model {
     protected $fillable = ['title', 'content'];
 }
 ```
+
+## Vue.js SingleFileComponent
+
+HTML + JS + CSSを1つのファイル(*.vue)にまとめることが出来る特別なファイル形式  
+\<template>と\<script>と\<style>の3種類の言語ブロックで構成されている。  
+\<script>セクションは、標準的なJavascriptモジュールです。Vueコンポーネント定義をデフォルトでエクスポートする必要がある。  
+\<template>セクションは、コンポーネントのテンプレートを定義する。  
+\<style>セクションは、コンポーネントに関連するCSSを定義する。  
+
+```vue
+<script>
+export default {
+  data() {
+    return {
+      greeting: 'Hello World!'
+    }
+  }
+}
+</script>
+
+<template>
+  <p class="greeting">{{ greeting }}</p>
+</template>
+
+<style>
+.greeting {
+  color: red;
+  font-weight: bold;
+}
+</style>
+```
+
+よく使うディレクティブ
+v-if,v-else,v-else-if  
+v-for(v-for in),v-show  
+v-text,v-html  
+v-on(省略形は@) イベント  
+v-bind(省略形は:) 紐づけ  
+v-model フォーム用  
+v-cloak  
+v-slot  
+トランジション関連
