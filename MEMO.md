@@ -215,3 +215,30 @@ const reactiveVariable = ref('');
 <input type="text" name="reactiveVariable" v-model="reactiveVariable">{{reactiveVariable}}
 </template>
 ```
+
+## inertiaでformを利用する
+```vue
+<script setup>
+import { reactive } from 'vue';
+import { Inertia } from '@inertiajs/inertia';
+
+//formのパラメータを設定する
+const form = reactive({
+    title: null,
+    content: null,
+})
+
+//submitを実行した際にpostメソッドを実行し/inertiaへ遷移する
+const submitFunction = () => {
+    Inertia.post('/inertia', form)
+};
+</script>
+<template>
+    <!-- submitを実行した際の挙動を設定 -->
+    <form @submit.prevent="submitFunction">
+        <input type="text" name="title" v-model="form.title"><br>
+        <input type="text" name="content" v-model="form.content"><br>
+        <button>送信</button>
+    </form>
+</template>
+```
