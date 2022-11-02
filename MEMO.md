@@ -242,3 +242,55 @@ const submitFunction = () => {
     </form>
 </template>
 ```
+
+## langのvalidationで個別に属性を翻訳する
+
+```php
+//lang/ja/validation.php
+
+<?php
+
+declare(strict_types=1);
+
+return [
+    //省略
+        'attributes' => [
+        'title' => 'タイトル',
+        'content' => '本文'
+        ]
+];
+```
+titleは必須項目です。→タイトルは必須項目です。
+
+## バックエンドのバリデートエラーを表示する
+
+```vue
+<script setup>
+import { reactive } from 'vue';
+import { Inertia } from '@inertiajs/inertia';
+
+defineProps({
+    errors: Object
+})
+
+const form = reactive({
+    title: null,
+    content: null,
+})
+
+const submitFunction = () => {
+    Inertia.post('/inertia', form)
+};
+</script>
+<template>
+    <form @submit.prevent="submitFunction">
+        <input type="text" name="title" v-model="form.title"><br>
+        <!-- v-ifでerrors.titleプロパティが存在する場合のみ表示する -->
+        <div v-if="errors.title">{{ errors.title }}</div>
+        <input type="text" name="content" v-model="form.content"><br>
+        <!-- v-ifでerrors.contentプロパティが存在する場合のみ表示する -->
+        <div v-if="errors.content">{{ errors.content }}</div>
+        <button>送信</button>
+    </form>
+</template>
+```
