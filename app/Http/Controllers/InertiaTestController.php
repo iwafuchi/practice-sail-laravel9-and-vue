@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\InertisaTest;
+use App\Http\Requests\InertiaTestStoreRequest;
 
 class InertiaTestController extends Controller {
     public function index() {
@@ -16,7 +17,7 @@ class InertiaTestController extends Controller {
     public function show($id) {
         return Inertia::render('Inertia/Show', ['id' => $id]);
     }
-    public function store(Request $request) {
+    public function store(InertiaTestStoreRequest $request) {
         $inertiaTest = new InertisaTest();
         $attributes = $request->only('title', 'content');
         $inertiaTest->fill([
