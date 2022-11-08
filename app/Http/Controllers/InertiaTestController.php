@@ -24,6 +24,9 @@ class InertiaTestController extends Controller {
             'title' => $attributes['title'],
             'content' => $attributes['content']
         ])->save();
-        return to_route('inertia.index');
+        return to_route('inertia.index')
+            ->with([
+                'message' => '登録しました。'
+            ]);
     }
 }
