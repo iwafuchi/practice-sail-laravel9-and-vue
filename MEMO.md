@@ -294,3 +294,91 @@ const submitFunction = () => {
     </form>
 </template>
 ```
+
+## CSRF対策
+Laravel @csrfで対応  
+Inertia 既に対応されている(X-XSRF-TOKEN)  
+
+## Inertiaでフラッシュメッセージを表示する
+
+```php
+//HandleInertiaRequests.php
+<?php
+
+namespace App\Http\Middleware;
+
+use Illuminate\Http\Request;
+use Inertia\Middleware;
+use Tightenco\Ziggy\Ziggy;
+
+class HandleInertiaRequests extends Middleware {
+    //省略
+
+    //Shared dataにフラッシュメッセージを追加する
+    public function share(Request $request) {
+        return array_merge(parent::share($request), [
+            'auth' => [
+                'user' => $request->user(),
+            ],
+            'ziggy' => function () use ($request) {
+                return array_merge((new Ziggy)->toArray(), [
+                    'location' => $request->url(),
+                ]);
+            },
+            //フラッシュメッセージを追加
+            'flash' => [
+                'message' => fn () => $request->session()->get('message')
+            ],
+        ]);
+    }
+}
+```
+
+```php
+//Controller
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use App\Models\InertisaTest;
+use App\Http\Requests\InertiaTestStoreRequest;
+
+class InertiaTestController extends Controller {
+    public function index() {
+        return Inertia::render('Inertia/Index');
+    }
+    public function create() {
+        return Inertia::render('Inertia/Create');
+    }
+    public function show($id) {
+        return Inertia::render('Inertia/Show', ['id' => $id]);
+    }
+    public function store(InertiaTestStoreRequest $request) {
+        $inertiaTest = new InertisaTest();
+        $attributes = $request->only('title', 'content');
+        $inertiaTest->fill([
+            'title' => $attributes['title'],
+            'content' => $attributes['content']
+        ])->save();
+        //フラッシュメッセージを設定
+        return to_route('inertia.index')
+            ->with([
+                'message' => '登録しました。'
+            ]);
+    }
+}
+```
+
+```vue
+<script setup>
+</script>
+
+<template>
+    <!-- フラッシュメッセージを表示する -->
+    <div v-if="$page.props.flash.message">
+        {{ $page.props.flash.message }}
+    </div>
+</template>
+```
