@@ -382,3 +382,84 @@ class InertiaTestController extends Controller {
     </div>
 </template>
 ```
+
+## v-forを使用する
+
+```php
+//model
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up() {
+        Schema::create('inertisa_tests', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('content');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down() {
+        Schema::dropIfExists('inertisa_tests');
+    }
+};
+```
+
+```php
+//controller
+<?php
+
+namespace App\Http\Controllers;
+
+use Inertia\Inertia;
+use App\Models\InertisaTest;
+use App\Http\Requests\InertiaTestStoreRequest;
+
+class InertiaTestController extends Controller {
+    public function index() {
+        return Inertia::render('Inertia/Index', [
+            'blogs' => InertisaTest::all()
+        ]);
+    }
+}
+```
+
+```vue
+<script setup>
+import { Link } from '@inertiajs/inertia-vue3';
+
+defineProps({
+    blogs: Array
+})
+</script>
+
+<template>
+    <div v-if="$page.props.flash.message" class="bg-blue-300">
+        {{ $page.props.flash.message }}
+    </div>
+    <ul>
+        <!-- 単数形 in 複数形のフォーマットで記載する
+            key 属性を付与し、要素とデータを関連付けることを忘れずに
+         -->
+        <li v-for="blog in blogs" :key="blog.id">
+            件名:
+            <Link class="text-blue-400" :href="route('inertia.show', { id: blog.id })"> {{ blog.title }}</Link>,
+            本文: {{ blog.content }}
+        </li>
+    </ul>
+</template>
+```
