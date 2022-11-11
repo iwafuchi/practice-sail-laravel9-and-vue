@@ -463,3 +463,66 @@ defineProps({
     </ul>
 </template>
 ```
+
+## Inertiajsのイベントコールバック
+
+- onBefore : リクエスト直前
+- onStart : リクエスト開始時
+- onProgress : リクエスト進行中
+- onSuccess : リクエスト成功時
+- onError : エラー時
+- onCancel : キャンセル時
+- onFinish : リクエスト完了時
+
+```php
+//route
+Route::delete('/inertia/{id}', [InertiaTestController::class, 'delete'])
+    ->name('inertia.delete');
+```
+
+```php
+//controller
+<?php
+
+namespace App\Http\Controllers;
+
+use Inertia\Inertia;
+use App\Models\InertisaTest;
+use App\Http\Requests\InertiaTestStoreRequest;
+
+class InertiaTestController extends Controller {
+    public function delete($id) {
+        $book = InertisaTest::findOrfail($id);
+        $book->delete();
+
+        return to_route('inertia.index')
+            ->with([
+                'message' => '削除しました。'
+            ]);
+    }
+}
+```
+
+```vue
+<script setup>
+import { Inertia } from '@inertiajs/inertia';
+
+defineProps({
+    id: String,
+    blog: Object
+})
+
+const deleteConfirm = (id) => {
+    Inertia.delete(`/inertia/${id}`, {
+        onBefore: () => confirm('本当に削除しますか?')
+    })
+}
+
+</script>
+
+<template>
+    {{ id }}<br>
+    {{ blog.title }}<br>
+    <button @click="deleteConfirm(blog.id)">削除</button>
+</template>
+```
