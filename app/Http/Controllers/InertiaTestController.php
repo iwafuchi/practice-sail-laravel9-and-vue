@@ -12,12 +12,21 @@ class InertiaTestController extends Controller {
             'blogs' => InertisaTest::all()
         ]);
     }
+
     public function create() {
         return Inertia::render('Inertia/Create');
     }
+
     public function show($id) {
-        return Inertia::render('Inertia/Show', ['id' => $id]);
+        return Inertia::render(
+            'Inertia/Show',
+            [
+                'id' => $id,
+                'blog' => InertisaTest::findOrfail($id)
+            ]
+        );
     }
+
     public function store(InertiaTestStoreRequest $request) {
         $inertiaTest = new InertisaTest();
         $attributes = $request->only('title', 'content');
@@ -28,6 +37,16 @@ class InertiaTestController extends Controller {
         return to_route('inertia.index')
             ->with([
                 'message' => '登録しました。'
+            ]);
+    }
+
+    public function delete($id) {
+        $book = InertisaTest::findOrfail($id);
+        $book->delete();
+
+        return to_route('inertia.index')
+            ->with([
+                'message' => '削除しました。'
             ]);
     }
 }
