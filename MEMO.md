@@ -526,3 +526,54 @@ const deleteConfirm = (id) => {
     <button @click="deleteConfirm(blog.id)">削除</button>
 </template>
 ```
+
+## Vue.jsでスロットを使う
+
+v-slotで名前付きスロットを使う  
+v-slotを省略する場合は#
+
+```vue
+<!-- SlotTest -->
+<script setup>
+</script>
+
+<template>
+    <h1 class="font-bold text-xl text-gray-800">スロットテスト</h1>
+    <!-- デフォルトスロット -->
+    <slot />
+    <div class="text-xl">
+        <!-- 名前付きスロット -->
+        <slot name="title" />
+    </div>
+    <slot name="content" />
+</template>
+```
+
+```vue
+<!-- SlotTestを利用する -->
+<script setup>
+import SlotTest from '@/Layouts/SlotTest.vue';
+</script>
+
+<template>
+    <SlotTest>
+        <!-- デフォルトスロットを使用する -->
+        <template #default>
+            デフォルトスロット
+        </template>
+        <!-- 名前付きスロットを使用する -->
+        <template #title>
+            <div class="bg-blue-400">タイトル</div>
+        </template>
+        <template #content>
+            <div class="bg-green-400">
+                <ul>
+                    <li>コンテンツ1</li>
+                    <li>コンテンツ2</li>
+                    <li>コンテンツ3</li>
+                </ul>
+            </div>
+        </template>
+    </SlotTest>
+</template>
+```
