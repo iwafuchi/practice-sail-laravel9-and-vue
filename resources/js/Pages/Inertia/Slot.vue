@@ -5,7 +5,7 @@ import SlotTest from '@/Layouts/SlotTest.vue';
 <template>
     <SlotTest>
         <template #default>
-            <div class="bg-red-400">デフォルトスロット</div>
+            デフォルトスロット
         </template>
         <template #title>
             <div class="bg-blue-400">タイトル</div>
