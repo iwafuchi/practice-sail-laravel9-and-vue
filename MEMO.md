@@ -382,3 +382,249 @@ class InertiaTestController extends Controller {
     </div>
 </template>
 ```
+
+## v-forを使用する
+
+```php
+//model
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up() {
+        Schema::create('inertisa_tests', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('content');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down() {
+        Schema::dropIfExists('inertisa_tests');
+    }
+};
+```
+
+```php
+//controller
+<?php
+
+namespace App\Http\Controllers;
+
+use Inertia\Inertia;
+use App\Models\InertisaTest;
+use App\Http\Requests\InertiaTestStoreRequest;
+
+class InertiaTestController extends Controller {
+    public function index() {
+        return Inertia::render('Inertia/Index', [
+            'blogs' => InertisaTest::all()
+        ]);
+    }
+}
+```
+
+```vue
+<script setup>
+import { Link } from '@inertiajs/inertia-vue3';
+
+defineProps({
+    blogs: Array
+})
+</script>
+
+<template>
+    <div v-if="$page.props.flash.message" class="bg-blue-300">
+        {{ $page.props.flash.message }}
+    </div>
+    <ul>
+        <!-- 単数形 in 複数形のフォーマットで記載する
+            key 属性を付与し、要素とデータを関連付けることを忘れずに
+         -->
+        <li v-for="blog in blogs" :key="blog.id">
+            件名:
+            <Link class="text-blue-400" :href="route('inertia.show', { id: blog.id })"> {{ blog.title }}</Link>,
+            本文: {{ blog.content }}
+        </li>
+    </ul>
+</template>
+```
+
+## Inertiajsのイベントコールバック
+
+- onBefore : リクエスト直前
+- onStart : リクエスト開始時
+- onProgress : リクエスト進行中
+- onSuccess : リクエスト成功時
+- onError : エラー時
+- onCancel : キャンセル時
+- onFinish : リクエスト完了時
+
+```php
+//route
+Route::delete('/inertia/{id}', [InertiaTestController::class, 'delete'])
+    ->name('inertia.delete');
+```
+
+```php
+//controller
+<?php
+
+namespace App\Http\Controllers;
+
+use Inertia\Inertia;
+use App\Models\InertisaTest;
+use App\Http\Requests\InertiaTestStoreRequest;
+
+class InertiaTestController extends Controller {
+    public function delete($id) {
+        $book = InertisaTest::findOrfail($id);
+        $book->delete();
+
+        return to_route('inertia.index')
+            ->with([
+                'message' => '削除しました。'
+            ]);
+    }
+}
+```
+
+```vue
+<script setup>
+import { Inertia } from '@inertiajs/inertia';
+
+defineProps({
+    id: String,
+    blog: Object
+})
+
+const deleteConfirm = (id) => {
+    Inertia.delete(`/inertia/${id}`, {
+        onBefore: () => confirm('本当に削除しますか?')
+    })
+}
+
+</script>
+
+<template>
+    {{ id }}<br>
+    {{ blog.title }}<br>
+    <button @click="deleteConfirm(blog.id)">削除</button>
+</template>
+```
+
+## Vue.jsでスロットを使う
+
+v-slotで名前付きスロットを使う  
+v-slotを省略する場合は#
+
+```vue
+<!-- SlotTest -->
+<script setup>
+</script>
+
+<template>
+    <h1 class="font-bold text-xl text-gray-800">スロットテスト</h1>
+    <!-- デフォルトスロット -->
+    <slot />
+    <div class="text-xl">
+        <!-- 名前付きスロット -->
+        <slot name="title" />
+    </div>
+    <slot name="content" />
+</template>
+```
+
+```vue
+<!-- SlotTestを利用する -->
+<script setup>
+import SlotTest from '@/Layouts/SlotTest.vue';
+</script>
+
+<template>
+    <SlotTest>
+        <!-- デフォルトスロットを使用する -->
+        <template #default>
+            デフォルトスロット
+        </template>
+        <!-- 名前付きスロットを使用する -->
+        <template #title>
+            <div class="bg-blue-400">タイトル</div>
+        </template>
+        <template #content>
+            <div class="bg-green-400">
+                <ul>
+                    <li>コンテンツ1</li>
+                    <li>コンテンツ2</li>
+                    <li>コンテンツ3</li>
+                </ul>
+            </div>
+        </template>
+    </SlotTest>
+</template>
+```
+
+## definePropsとdefineEmits
+親から子へ値を渡す時はdefineProps  
+子から親へ値を渡す時はdefineEmits  
+
+```vue
+<!-- TextInput.vue -->
+<script setup>
+import { onMounted, ref } from 'vue';
+
+defineProps(['modelValue']);
+
+defineEmits(['update:modelValue']);
+
+const input = ref(null);
+
+onMounted(() => {
+    if (input.value.hasAttribute('autofocus')) {
+        input.value.focus();
+    }
+});
+</script>
+
+<template>
+    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input">
+</template>
+
+```
+
+```vue
+<script setup>
+import TextInput from '@/Components/TextInput.vue';
+
+const emitTest = (e) => {
+    console.log(e);
+};
+
+</script>
+
+<template>
+    <div class="container mx-auto">
+        <div class="h-full w-full flex justify-center items-center">
+            <!-- 
+                modelValueにセットした値がTextInputに渡る。
+                @(v-on)でinputのvalueが書き換わる度にupdate:modelValueで値が親に渡りemitTestメソッドが走る
+             -->
+            <TextInput modelValue="初期値が入ります" @update:modelValue="emitTest"></TextInput>
+        </div>
+    </div>
+</template>
+```
