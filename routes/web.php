@@ -20,8 +20,8 @@ Route::get('/inertia-test', function () {
     return Inertia::render('InertiaTest');
 });
 
-Route::get('/inertia/slot', function () {
-    return Inertia::render('Inertia/Slot');
+Route::get('/inertia-slot', function () {
+    return Inertia::render('InertiaSlot');
 });
 
 Route::get('/inertia/index', [InertiaTestController::class, 'index'])
