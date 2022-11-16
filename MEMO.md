@@ -577,3 +577,54 @@ import SlotTest from '@/Layouts/SlotTest.vue';
     </SlotTest>
 </template>
 ```
+
+## definePropsとdefineEmits
+親から子へ値を渡す時はdefineProps  
+子から親へ値を渡す時はdefineEmits  
+
+```vue
+<!-- TextInput.vue -->
+<script setup>
+import { onMounted, ref } from 'vue';
+
+defineProps(['modelValue']);
+
+defineEmits(['update:modelValue']);
+
+const input = ref(null);
+
+onMounted(() => {
+    if (input.value.hasAttribute('autofocus')) {
+        input.value.focus();
+    }
+});
+</script>
+
+<template>
+    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input">
+</template>
+
+```
+
+```vue
+<script setup>
+import TextInput from '@/Components/TextInput.vue';
+
+const emitTest = (e) => {
+    console.log(e);
+};
+
+</script>
+
+<template>
+    <div class="container mx-auto">
+        <div class="h-full w-full flex justify-center items-center">
+            <!-- 
+                modelValueにセットした値がTextInputに渡る。
+                @(v-on)でinputのvalueが書き換わる度にupdate:modelValueで値が親に渡りemitTestメソッドが走る
+             -->
+            <TextInput modelValue="初期値が入ります" @update:modelValue="emitTest"></TextInput>
+        </div>
+    </div>
+</template>
+```
