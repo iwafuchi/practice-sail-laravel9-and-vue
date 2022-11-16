@@ -24,6 +24,10 @@ Route::get('/inertia-slot', function () {
     return Inertia::render('InertiaSlot');
 });
 
+Route::get('/component-test', function () {
+    return Inertia::render('ComponentTest');
+});
+
 Route::get('/inertia/index', [InertiaTestController::class, 'index'])
     ->name('inertia.index');
 
