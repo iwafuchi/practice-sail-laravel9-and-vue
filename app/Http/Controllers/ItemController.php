@@ -5,17 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 use App\Models\Item;
+use Inertia\Inertia;
 
-class ItemController extends Controller
-{
+class ItemController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        return Inertia::render('Items/Index');
     }
 
     /**
@@ -23,8 +22,7 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -34,8 +32,7 @@ class ItemController extends Controller
      * @param  \App\Http\Requests\StoreItemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreItemRequest $request)
-    {
+    public function store(StoreItemRequest $request) {
         //
     }
 
@@ -45,8 +42,7 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(Item $item)
-    {
+    public function show(Item $item) {
         //
     }
 
@@ -56,8 +52,7 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function edit(Item $item)
-    {
+    public function edit(Item $item) {
         //
     }
 
@@ -68,8 +63,7 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateItemRequest $request, Item $item)
-    {
+    public function update(UpdateItemRequest $request, Item $item) {
         //
     }
 
@@ -79,8 +73,7 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $item)
-    {
+    public function destroy(Item $item) {
         //
     }
 }
