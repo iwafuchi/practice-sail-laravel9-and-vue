@@ -25,7 +25,7 @@ class ItemController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        return Inertia::render('Items/Create');
     }
 
     /**
