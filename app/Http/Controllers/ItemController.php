@@ -14,7 +14,9 @@ class ItemController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return Inertia::render('Items/Index');
+        return Inertia::render('Items/Index', [
+            'items' => Item::select('id', 'name', 'price', 'is_selling')->get()
+        ]);
     }
 
     /**
