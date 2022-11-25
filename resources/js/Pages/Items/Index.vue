@@ -1,4 +1,5 @@
 <script setup>
+import FlashMessage from '@/Components/FlashMessage.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
 
@@ -24,6 +25,7 @@ defineProps({
                     <div class="p-6 bg-white border-b border-gray-200">
                         <section class="text-gray-600 body-font">
                             <div class="container px-5 py-8 mx-auto">
+                                <FlashMessage></FlashMessage>
                                 <div class="lg:w-2/3 w-full mx-auto overflow-auto">
                                     <div class="flex my-4 w-full mx-auto">
                                         <Link as="button" :href="route('items.create')"
