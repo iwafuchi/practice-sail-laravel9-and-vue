@@ -35,7 +35,13 @@ class ItemController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(StoreItemRequest $request) {
-        //
+        Item::create([
+            'name' => $request->name,
+            'memo' => $request->memo,
+            'price' => $request->price,
+        ]);
+
+        return to_route('items.index');
     }
 
     /**
