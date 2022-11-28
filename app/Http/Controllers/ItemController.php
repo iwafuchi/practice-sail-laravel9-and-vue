@@ -100,6 +100,11 @@ class ItemController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy(Item $item) {
-        //
+        $item->delete();
+
+        return to_route('items.index')->with([
+            'message' => "ID{$item->id}を削除しました。",
+            'status' => 'danger',
+        ]);
     }
 }
