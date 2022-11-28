@@ -79,7 +79,18 @@ class ItemController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateItemRequest $request, Item $item) {
-        //
+        $atttibutes = $request->only(['id', 'name', 'memo', 'price', 'is_selling']);
+        $item->fill([
+            'name' => $atttibutes['name'],
+            'memo' => $atttibutes['memo'],
+            'price' => $atttibutes['price'],
+            'is_selling' => $atttibutes['is_selling'],
+        ])->save();
+
+        return to_route('items.index')->with([
+            'message' => "ID{$item->id}を更新しました。",
+            'status' => 'success',
+        ]);
     }
 
     /**
