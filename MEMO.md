@@ -627,3 +627,26 @@ const emitTest = (e) => {
     </div>
 </template>
 ```
+
+## JSからLaravelの名前付きルーティングをPHPのように使用する
+[ziggy](https://github.com/tighten/ziggy#spas-or-separate-repos)を利用してルーティングしている。
+
+```vue
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Link, Head } from '@inertiajs/inertia-vue3';
+import { nl2br } from '@/nl2bl';
+import { Inertia } from '@inertiajs/inertia';
+
+defineProps({
+    item: Object
+})
+
+const deleteItem = (id) => {
+    Inertia.delete(route('items.destroy', { item: id }), {
+        onBefore: () => confirm('本当に削除しますか？')
+    })
+}
+</script>
+
+```
