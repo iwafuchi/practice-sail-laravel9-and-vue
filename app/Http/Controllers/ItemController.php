@@ -66,7 +66,9 @@ class ItemController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(Item $item) {
-        //
+        return Inertia::render('Items/Edit', [
+            'item' => $item
+        ]);
     }
 
     /**
