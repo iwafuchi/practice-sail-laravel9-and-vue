@@ -268,6 +268,7 @@ titleは必須項目です。→タイトルは必須項目です。
 <script setup>
 import { reactive } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
+import InputError from '@/Components/InputError.vue';
 
 defineProps({
     errors: Object
@@ -285,11 +286,9 @@ const submitFunction = () => {
 <template>
     <form @submit.prevent="submitFunction">
         <input type="text" name="title" v-model="form.title"><br>
-        <!-- v-ifでerrors.titleプロパティが存在する場合のみ表示する -->
-        <div v-if="errors.title">{{ errors.title }}</div>
+        <InputError :message="errors.title"></InputError>
         <input type="text" name="content" v-model="form.content"><br>
-        <!-- v-ifでerrors.contentプロパティが存在する場合のみ表示する -->
-        <div v-if="errors.content">{{ errors.content }}</div>
+        <InputError :message="errors.content"></InputError>
         <button>送信</button>
     </form>
 </template>
