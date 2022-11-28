@@ -6,7 +6,8 @@ import { Inertia } from '@inertiajs/inertia';
 import InputError from '@/Components/InputError.vue';
 
 const props = defineProps({
-    item: Object
+    item: Object,
+    errors: Object,
 })
 
 const form = reactive({
@@ -39,9 +40,9 @@ const storeItem = () => {
                     <div class="p-6 bg-white border-b border-gray-200">
                         <section class="text-gray-600 body-font relative">
                             <form @submit.prevent="storeItem">
-                                <InputError :message="props.item.name"></InputError>
-                                <InputError :message="props.item.memo"></InputError>
-                                <InputError :message="props.item.price"></InputError>
+                                <InputError :message="errors.name"></InputError>
+                                <InputError :message="errors.memo"></InputError>
+                                <InputError :message="errors.price"></InputError>
                                 <div class="container px-5 py-8 mx-auto">
                                     <div class="lg:w-1/2 md:w-2/3 mx-auto">
                                         <div class="flex flex-wrap -m-2">
