@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+use Inertia\Inertia;
 
-class CustomerController extends Controller
-{
+class CustomerController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        return Inertia::render('Customers/Index', [
+            'customers' => Customer::select('id', 'name', 'kana', 'tel')->get()
+        ]);
     }
 
     /**
@@ -23,8 +24,7 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -34,8 +34,7 @@ class CustomerController extends Controller
      * @param  \App\Http\Requests\StoreCustomerRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCustomerRequest $request)
-    {
+    public function store(StoreCustomerRequest $request) {
         //
     }
 
@@ -45,8 +44,7 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
-    {
+    public function show(Customer $customer) {
         //
     }
 
@@ -56,8 +54,7 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
-    {
+    public function edit(Customer $customer) {
         //
     }
 
@@ -68,8 +65,7 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
-    {
+    public function update(UpdateCustomerRequest $request, Customer $customer) {
         //
     }
 
@@ -79,8 +75,7 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
-    {
+    public function destroy(Customer $customer) {
         //
     }
 }
