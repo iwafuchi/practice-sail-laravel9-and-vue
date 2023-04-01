@@ -1,21 +1,12 @@
-<script setup>
-import { Link } from '@inertiajs/inertia-vue3';
-
-defineProps({
-    blogs: Array
-})
-</script>
-
 <template>
-    <div v-if="$page.props.flash.message" class="bg-blue-300">
-        {{ $page.props.flash.message }}
+    <div class="flex justify-center flex-col">
+        <Alert></Alert>
+        <Alert message="aaa"></Alert>
+        <HelloWorld msg="Hello" />
     </div>
-    <ul>
-        <li v-for="blog in blogs" :key="blog.id">
-            件名:
-            <Link class="text-blue-400" :href="route('inertia.show', { id: blog.id })"> {{ blog.title }}</Link>,
-            本文: {{ blog.content }}
-        </li>
-    </ul>
-    あああああああああ
 </template>
+
+<script setup lang="ts">
+import Alert from './components/Alert.vue';
+import HelloWorld from './components/HelloWorld.vue';
+</script>

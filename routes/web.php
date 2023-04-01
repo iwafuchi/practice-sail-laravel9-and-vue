@@ -43,6 +43,9 @@ Route::get('/inertia/index', [InertiaTestController::class, 'index'])
 Route::get('/inertia/create', [InertiaTestController::class, 'create'])
     ->name('inertia.create');
 
+Route::get('/inertia/State', [InertiaTestController::class, 'StateTest'])
+    ->name('inertia.state');
+
 Route::post('/inertia', [InertiaTestController::class, 'store'])
     ->name('inertia.store');
 

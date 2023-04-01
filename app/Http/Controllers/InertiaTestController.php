@@ -49,4 +49,8 @@ class InertiaTestController extends Controller {
                 'message' => '削除しました。'
             ]);
     }
+
+    public function stateTest() {
+        return Inertia::render('Inertia/StateTest');
+    }
 }
