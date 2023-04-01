@@ -23,14 +23,35 @@ sail artisan breeze:install vue
 
 WSL2環境だとdevモードで動かしてもVite開発サーバーへアクセス出来ないのでserverの設定を追加する  
 ```js
+//vite.config.js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import vue from '@vitejs/plugin-vue';
+
 export default defineConfig({
+    //追記
     server: {
         host: true,
         hmr: {
             host: 'localhost',
         },
     },
+    plugins: [
+        laravel({
+            input: 'resources/js/app.js',
+            refresh: true,
+        }),
+        vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
+    ],
 });
+
 ```
 
 ## Vue.js devtoolsのインストール
@@ -38,6 +59,7 @@ https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanh
 
 ```bash
 sail npm run dev
+sail artisan serve
 ```
 
 Vue.js devtoolsで動作を確認する  
