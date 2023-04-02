@@ -18,6 +18,14 @@ use App\Http\Controllers\CustomerController;
 |
 */
 
+Route::get('/vue', function () {
+    return Inertia::render('Payment');
+});
+
+Route::get('vue/tweet', function () {
+    return Inertia::render('App');
+});
+
 Route::resource('items', ItemController::class)
     ->middleware(['auth', 'verified']);
 
