@@ -2,7 +2,7 @@
 import { reactive } from 'vue';
 
 const person = reactive({
-    id: Math.random(),
+    id: 0,
     name: '',
     age: 0
 });
@@ -11,6 +11,7 @@ const person = reactive({
 const emit = defineEmits(['register']);
 
 const register = () => {
+    person.id = Math.random();
     emit('register', { ...person });
 }
 
