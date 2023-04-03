@@ -26,6 +26,10 @@ Route::get('vue/tweet', function () {
     return Inertia::render('App');
 });
 
+Route::get('vue/person', function () {
+    return Inertia::render('Person');
+});
+
 Route::resource('items', ItemController::class)
     ->middleware(['auth', 'verified']);
 
